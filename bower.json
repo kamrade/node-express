@@ -1,0 +1,21 @@
+{
+  "name": "node-app",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Denis Michailov <kamrad.reg@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/kamrade/node-express",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.6.3"
+  }
+}
