@@ -1,8 +1,16 @@
 var express = require('express');
 var app = express();
 
+var nav = [{
+		Link: '/Books',
+		Text: 'Book'
+	},{
+		Link: '/Authors',
+		Text: 'Author'
+	}];
+
 var port = process.env.PORT || 5000;
-var bookRouter = require('./src/routes/bookRoutes');
+var bookRouter = require('./src/routes/bookRoutes')(nav);
 
 app.use(express.static('public'));
 
@@ -13,19 +21,9 @@ app.use('/Books', bookRouter);
 
 app.get('/', function(req, res) {
 	res.render('index', {
-			title: 'Bookz',
-			nav: [{
-					Link: '/Books',
-					Text: 'Books'
-				},{
-					Link: '/Authors',
-					Text: 'Authors'
-				}]
+			title: 'Bookzzz',
+			nav: nav
 		});
-});
-
-app.get('/books', function(req, res) {
-	res.send('Hello Books.');
 });
 
 app.listen(port, function(err) {

@@ -1,0 +1,15 @@
+h1 Boookz
+br
+ul
+	//- each val in books
+	- for (var i = 0; i < books.length; i++)
+		li
+			h3
+				//- a(href="/books/")= val.title
+				a(href="/books/" + i)= books[i].title
+			//- p.genre= val.genre
+			p.genre= books[i].genre
+			p
+				//- i= val.author
+				i= books[i].author
+	

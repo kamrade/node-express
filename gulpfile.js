@@ -26,7 +26,7 @@ gulp.task('serve', ['style'], function() {
 	};
 	return nodemon(options)
 		.on('restart', function(ev) {
-			console.log('\n++++++++++Restarting++++++++++\n');
+			console.log('\x1b[33m%s\x1b[0m ', '\n++++++++++Restarting++++++++++\n');
 			gulp.src(jsFiles)
 				.pipe(jshint())
 				.pipe(jshint.reporter('jshint-stylish', {
