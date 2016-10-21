@@ -1,0 +1,10 @@
+html
+	head
+		title= title
+	body(class="MyClass")
+		h1(id="MyId")= title
+		h3  Sub heading
+		ul
+			each val in nav
+				li
+					a(href=val.Link)= val.Text

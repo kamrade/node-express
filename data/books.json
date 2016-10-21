@@ -1,0 +1,13 @@
+[
+	{
+		"title": "War and Peace",
+		"genre": "Historical Fiction",
+		"author": "Lev Nikolaevich Tolstoy",
+		"read": "false"
+	},
+	{
+		"title": "Les Miserables",
+		"genre": "Historical Fiction",
+		"author": "Victor Hugo"
+	}
+]
