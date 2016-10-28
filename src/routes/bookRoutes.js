@@ -43,8 +43,9 @@ var router = function(nav) {
 			var id = req.params.id;
 			var sqlQuery = 'select * from books where id = ' + connection.escape(id);
 			connection.query(sqlQuery, function(err, recordset) {
-				if(recordset.length === 0) {
-					res.status(404).send('Not Found')
+				if (recordset.length === 0) {
+					res.status(404).send('Not Found');
+					return;
 				} else {
 					req.book = recordset[0];
 					next();
@@ -56,7 +57,7 @@ var router = function(nav) {
 				title: 'Books',
 				nav: nav,
 				book: req.book
-			})
+			});
 		});
 
 		// .get(function(req, res) {
