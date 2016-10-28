@@ -39,17 +39,37 @@ var router = function(nav) {
 		});
 
 	bookRouter.route('/:id')
-		.get(function(req, res) {
+		.all(function(req, res, next) {
 			var id = req.params.id;
 			var sqlQuery = 'select * from books where id = ' + connection.escape(id);
-			connection.query(sqlQuery, function(err, results) {
-				res.render('bookView', {
-					title: 'Bookz',
-					nav: nav,
-					book: results[0]
-				});
+			connection.query(sqlQuery, function(err, recordset) {
+				if(recordset.length === 0) {
+					res.status(404).send('Not Found')
+				} else {
+					req.book = recordset[0];
+					next();
+				}
 			});
+		})
+		.get(function(req, res) {
+			res.render('bookView', {
+				title: 'Books',
+				nav: nav,
+				book: req.book
+			})
 		});
+
+		// .get(function(req, res) {
+		// 	var id = req.params.id;
+		// 	var sqlQuery = 'select * from books where id = ' + connection.escape(id);
+		// 	connection.query(sqlQuery, function(err, recordset) {
+		// 		res.render('bookView', {
+		// 			title: 'Bookz',
+		// 			nav: nav,
+		// 			book: recordset[0]
+		// 		});
+		// 	});
+		// });
 
 	return bookRouter;
 
