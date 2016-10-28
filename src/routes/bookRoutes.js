@@ -3,10 +3,11 @@ var bookRouter = express.Router();
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'denis',
-	password: 'denis',
-	database: 'books'
+	host: 'db4free.net',
+	// port: 3304,
+	user: 'kamrade',
+	password: 'kamrade',
+	database: 'kamrade'
 });
 
 connection.connect(function(err) {
