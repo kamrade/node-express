@@ -1,45 +1,52 @@
 var express = require('express');
 var bookRouter = express.Router();
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+	host: 'localhost',
+	user: 'denis',
+	password: 'denis',
+	database: 'books'
+});
+
+connection.connect(function(err) {
+	if (err) {
+		console.error('connection error: ' + err.stack);
+		return;
+	} else {
+		console.log('connected as ' + connection.threadId);
+	}
+});
 
 var router = function(nav) {
 
-	var books = [
-		{
-			title: 'War and Peace',
-			genre: 'Historical Fiction',
-			author: 'Lev Nikolaevich Tolstoy',
-			read: false
-		},
-		{
-			title: 'Les Miserables',
-			genre: 'Historical Fiction',
-			author: 'Victor Hugo',
-			read: true
-		},
-		{
-			title: 'The time machine',
-			genre: 'Science fiction',
-			author: 'H.G.Wells',
-			read: false
-		}
-	];
-
+	var books = [];
 	bookRouter.route('/')
 		.get(function(req, res) {
-			res.render('bookListView', {
-				title: 'Bookz',
-				nav: nav,
-				books: books
+			connection.query('select * from books', function(err, rows) {
+				if (err) {
+					console.log(err);
+					return;
+				}
+				books = rows;
+				res.render('bookListView', {
+					title: 'Bookz',
+					nav: nav,
+					books: books
+				});
 			});
 		});
 
 	bookRouter.route('/:id')
 		.get(function(req, res) {
 			var id = req.params.id;
-			res.render('bookView', {
-				title: 'Bookz',
-				nav: nav,
-				book: books[id]
+			var sqlQuery = 'select * from books where id = ' + connection.escape(id);
+			connection.query(sqlQuery, function(err, results) {
+				res.render('bookView', {
+					title: 'Bookz',
+					nav: nav,
+					book: results[0]
+				});
 			});
 		});
 
