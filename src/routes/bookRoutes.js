@@ -1,54 +1,42 @@
 var express = require('express');
 var bookRouter = express.Router();
+var mongodb = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectID;
 
-var books = [
-	{
-		title: 'War and Peace',
-		genre: 'Historical Fiction',
-		author: 'Lev Nikolaevich Tolstoy',
-		read: false
-	},
-	{
-		title: 'The Time Machine',
-		genre: 'Science Fiction',
-		author: 'H. G. Wells',
-		read: false
-	},
-	{
-		title: 'Les Miserables',
-		genre: 'Historical Fiction',
-		author: 'Victor Hugo',
-		read: true
-	}
-];
+var url = 'mongodb://localhost:27017/libraryApp';
 
 var router = function(nav) {
 
 	bookRouter.route('/')
 		.get(function(req, res) {
-			res.render('bookListView', {
-				title: 'Bookz',
-				nav: nav,
-				books: books
+			mongodb.connect(url, function(err, db) {
+				var collection = db.collection('books');
+				collection.find({}).toArray(
+					function(err, results) {
+						res.render('bookListView', {
+							title: 'Bookz',
+							nav: nav,
+							books: results
+						});
+					}
+				);
 			});
 		});
 
 	bookRouter.route('/:id')
-		.all(function(req, res, next) {
-			var id = req.params.id;
-			if ((books.length - 1) < id) {
-				res.status(404).send('Not Found');
-				return;
-			} else {
-				next();
-			}
-		})
 		.get(function(req, res) {
-			var id = req.params.id;
-			res.render('bookView', {
-				title: 'Books',
-				nav: nav,
-				book: books[id]
+			var id = new ObjectId(req.params.id);
+			mongodb.connect(url, function(err, db) {
+				var collection = db.collection('books');
+				collection.findOne({_id: id},
+					function(err, result) {
+						res.render('bookView', {
+							title: 'Books',
+							nav: nav,
+							book: result
+						});
+					}
+				);
 			});
 		});
 
