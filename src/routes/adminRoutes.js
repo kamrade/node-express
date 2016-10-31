@@ -2,7 +2,8 @@ var express = require('express');
 var adminRouter = express.Router();
 var mongodb = require('mongodb').MongoClient;
 
-var url = 'mongodb://localhost:27017/libraryApp';
+// var url = 'mongodb://localhost:27017/libraryApp';
+var url = 'mongodb://kamrade:213111@ds139567.mlab.com:39567/kamrade';
 
 var books = [
 	{
